@@ -69,7 +69,7 @@ const iniciarExportacion = (database) => {
   
     mysqldump.on('close', (code) => {
       console.log(`child process exited with code ${code}`);
-      resolve(data);
+      resolve(code);
     });
   })  
 }
