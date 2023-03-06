@@ -96,11 +96,11 @@ rucs.forEach(async (ruc) => {
   
   console.log(existDatabase);
   
-  if(!existDatabase) return;
+  if(existDatabase){
+    console.log(`Exportando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
 
-  console.log(`Exportando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
-
-  iniciarExportacion(empresa.EMP_DBNAME).then();
+    iniciarExportacion(empresa.EMP_DBNAME).then();
+  }
 
 })
 //exit(0);
