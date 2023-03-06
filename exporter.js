@@ -45,7 +45,7 @@ const getEmpresa = (ruc) => {
     });
 }
 const getEmpresaDatabase = (database) => {
-  const sqlQuery = `show databases like  '%${database}%'`;
+  const sqlQuery = `show databases like  '${database}'`;
    
   return connection
   .execute(
