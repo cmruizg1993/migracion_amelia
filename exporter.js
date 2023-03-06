@@ -103,5 +103,5 @@ rucs.forEach(async (ruc) => {
   iniciarExportacion(empresa.EMP_DBNAME).then();
 
 })
-exit(0);
+//exit(0);
 /************************** PRIMERA PARTE EXPORTACION DE CADA BASE DE DATOS ************************************** */
