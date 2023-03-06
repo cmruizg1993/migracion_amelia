@@ -91,7 +91,7 @@ rucs.forEach(async (ruc) => {
   
   if(!empresa) return;
 
-  const existDatabase = getEmpresaDatabase(empresa.EMP_DBNAME);
+  const existDatabase = await getEmpresaDatabase(empresa.EMP_DBNAME);
   
   if(!existDatabase) return;
 
