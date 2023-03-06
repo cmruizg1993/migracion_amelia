@@ -11,6 +11,7 @@ import mysql from 'mysql2';
 import util from 'util';
 import { spawn } from 'node:child_process';
 import { resolve } from 'path';
+import { exit } from 'process';
 
 /************************** CONEXION CON LA BASE DE DATOS MASTER ************************************** */
 const configAmeliaMaster =  {
@@ -93,12 +94,14 @@ rucs.forEach(async (ruc) => {
 
   const existDatabase = await getEmpresaDatabase(empresa.EMP_DBNAME);
   
+  console.log(existDatabase);
+  
   if(!existDatabase) return;
 
   console.log(`Exportando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
 
-  await iniciarExportacion(empresa.EMP_DBNAME);
+  iniciarExportacion(empresa.EMP_DBNAME).then();
 
 })
-
+exit(0);
 /************************** PRIMERA PARTE EXPORTACION DE CADA BASE DE DATOS ************************************** */
