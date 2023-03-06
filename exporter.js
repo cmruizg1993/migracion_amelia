@@ -43,6 +43,18 @@ const getEmpresa = (ruc) => {
       return null;
     });
 }
+const getEmpresaDatabase = (database) => {
+  const sqlQuery = `show databases like  '%${database}%'`;
+   
+  return connection
+  .execute(
+      sqlQuery,
+      []
+    ).then(data =>{
+      if(data.length > 0) return true;
+      return false;
+    });
+}
 const iniciarExportacion = (database) => {
 
   const resultFileName = `${database}.sql`;
@@ -78,6 +90,10 @@ rucs.forEach(async (ruc) => {
   const empresa = await getEmpresa(ruc);
   
   if(!empresa) return;
+
+  const existDatabase = getEmpresaDatabase(empresa.EMP_DBNAME);
+  
+  if(!existDatabase) return;
 
   console.log(`Exportando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
 
