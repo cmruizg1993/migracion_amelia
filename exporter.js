@@ -18,16 +18,10 @@ const configAmeliaMaster =  {
   user: "support",
   password: "Soporte@2022",
   database: "ameliapro_master",
-  host: "186.4.146.197",
-  port: "4198",
+  host: "localhost",//"186.4.146.197",
+  port: "3306"//"4198",
 };
-const connection = mysql.createConnection({
-  user: "support",
-  password: "Soporte@2022",
-  database: "ameliapro_master",
-  host: "186.4.146.197",
-  port: "4198",
-});
+const connection = mysql.createConnection(configAmeliaMaster);
 
 connection.execute = util.promisify(connection.execute)
 /************************** LEER TABLA DE EMPRESAS BDD MASTER ************************************** */
