@@ -1,0 +1,18 @@
+{
+  "name": "migracion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "mysql-import": "^5.0.26",
+    "mysql2": "^3.2.0",
+    "mysqldump": "^3.2.0",
+    "util": "^0.12.5"
+  }
+}
