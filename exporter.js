@@ -52,6 +52,7 @@ const getEmpresaDatabase = (database) => {
       sqlQuery,
       []
     ).then(data =>{
+      console.log(data)
       if(data.length > 0) return true;
       return false;
     });
