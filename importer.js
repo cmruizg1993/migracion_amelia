@@ -112,9 +112,9 @@ const getAllTables = (connection) => {
     return executeQuery(sqlQuery, connection, []);  
 }
 
-const getAllColumns = (connection, table) => {    
+const getComCodigoColumn = (connection, table) => {    
 
-    const sqlQuery = `SHOW COLUMNS FROM ${table};`
+    const sqlQuery = `SHOW COLUMNS FROM ${table} LIKE 'COM_CODIGO';`
 
     return executeQuery(sqlQuery, connection, []);  
 }
