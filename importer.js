@@ -2,7 +2,7 @@ import {rucs} from './exporter.js';
 import { importDb, createConnection, configAmeliaMasterImport, executeQuery } from './db.js';
 import fs from 'fs';
 import path from 'path';
-import { spawn } from 'node:child_process';
+import { spawn, exec } from 'node:child_process';
 
 const connection = importDb;
 const getEmpresa = (ruc) => {
@@ -32,10 +32,18 @@ const importSql = (database, dumpFile) => {
     const rootUser = config.user;
     const rootPassword = config.password;
 
-    const mysql = spawn('mysql',
-    [
-        `-u${rootUser}` ,`-p${rootPassword}`, `${database}`, ` <`, ` ${dumpFile}`
-    ]);
+    exec(`mysql -u ${rootUser} -p${rootPassword} ${database}  < ${dumpFile}`, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            
+        }
+        console.log(`stdout: ${stdout}`);
+        res({error, stdout, stderr});
+    })
 
     return new Promise((res)=>{
         mysql.stdout.on('data', (data) => {
@@ -149,13 +157,16 @@ const iniciarMigracion = ()=>{
         console.log(`Se ha creado la base de datos: ${database}`)
         
             
-        const code = await importSql(database, dumpFile);
+        const { error, stdout, stderr } = await importSql(database, dumpFile);
         
+        console.log({ error, stdout, stderr })
+        /*
         if(code != 0 )
         {
             console.log('Error al importar archivo SQL');
             return;
         } 
+        */
         /*
         const config = configAmeliaMasterImport();
 
