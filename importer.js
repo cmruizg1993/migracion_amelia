@@ -193,14 +193,12 @@ const iniciarMigracion = ()=>{
             const table = row[`Tables_in_${database}`];
             const columns = await getComCodigoColumn(connection, table);
 
-            console.log(columns);
-            /*
-            const hasComCodigo = columns.filter( column => column == 'COM_CODIGO').length > 0;
+            
+            const hasComCodigo = columns.length > 0;
 
             if(!hasComCodigo) return;
 
             updateComCodigo(connection, table, comCodigo).then();
-            */
 
         })
         /*
