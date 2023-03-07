@@ -1,29 +1,21 @@
 /************************** DEFINIR LOS RUCS DE LOS CLIENTES A EXPORTAR ************************************** */
 
-const rucs = [
+export const rucs = [
   "1719070292001",
   "1718962283001",
   "2390057019001",  
 ];
 
 /************************** PRIMERA PARTE EXPORTACION DE CADA BASE DE DATOS ************************************** */
-import mysql from 'mysql2';
-import util from 'util';
+
 import { spawn } from 'node:child_process';
-import { resolve } from 'path';
-import { exit } from 'process';
+import path from 'node:path';
 
 /************************** CONEXION CON LA BASE DE DATOS MASTER ************************************** */
-const configAmeliaMaster =  {
-  user: "support",
-  password: "Soporte@2022",
-  database: "ameliapro_master",
-  host: "localhost",//"186.4.146.197",
-  port: "3306"//"4198",
-};
-const connection = mysql.createConnection(configAmeliaMaster);
 
-connection.execute = util.promisify(connection.execute)
+import { exportDb } from './db.js';
+
+const connection = exportDb;
 /************************** LEER TABLA DE EMPRESAS BDD MASTER ************************************** */
 
 const getEmpresa = (ruc) => {
@@ -38,7 +30,7 @@ const getEmpresa = (ruc) => {
       return null;
     });
 }
-const getEmpresaDatabase = (database) => {
+export const getEmpresaDatabase = (database) => {
   const sqlQuery = `show databases like  '${database}'`;
    
   return connection
@@ -51,9 +43,9 @@ const getEmpresaDatabase = (database) => {
       return false;
     });
 }
-const iniciarExportacion = (database) => {
+const dumpDatabase = (database) => {
 
-  const resultFileName = `${database}.sql`;
+  const resultFileName = path.resolve('./export', `${database}.sql`);
   const databaseToExport = database;
 
   const rootUser = 'support';
@@ -94,9 +86,9 @@ rucs.forEach(async (ruc) => {
   if(existDatabase){
     console.log(`Exportando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
 
-    iniciarExportacion(empresa.EMP_DBNAME).then();
+    dumpDatabase(empresa.EMP_DBNAME).then();
   }
 
 })
-//exit(0);
-/************************** PRIMERA PARTE EXPORTACION DE CADA BASE DE DATOS ************************************** */
+
+/************************** SEGUNDA PARTE IMPORTACION DE CADA BASE DE DATOS ************************************** */
