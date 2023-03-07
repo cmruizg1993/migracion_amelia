@@ -1,4 +1,4 @@
-import {rucs} from './exporter';
+import {rucs} from './exporter.js';
 import { importDb, createConnection, configAmeliaMasterImport, executeQuery } from './db';
 import fs from 'fs';
 import path from 'path';
