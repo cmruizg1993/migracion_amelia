@@ -96,27 +96,27 @@ const addPrimaryKey = async (tabla, pk, connection) => {
 
     const sqlQueryDrop = `ALTER TABLE ${tabla} DROP PRIMARY KEY;`;
 
-    const dropResult = await executeQuery(sqlQueryDrop, [], connection);
+    const dropResult = await executeQuery(sqlQueryDrop, connection, []);
 
     console.log(dropResult);
 
     const sqlQuery = `ALTER TABLE ${tabla} ADD COM_CODIGO INTEGER NOT NULL, ADD PRIMARY KEY (COM_CODIGO, ${pk})`;
 
-    return executeQuery(sqlQuery, [], connection);
+    return executeQuery(sqlQuery, connection, [] );
 }
 
 const getAllTables = (connection) => {    
 
     const sqlQuery = `SHOW TABLES;`
 
-    return executeQuery(sqlQuery, [], connection);  
+    return executeQuery(sqlQuery, connection, []);  
 }
 
 const getAllColumns = (connection, table) => {    
 
     const sqlQuery = `SHOW COLUMNS FROM ${table};`
 
-    return executeQuery(sqlQuery, [], connection);  
+    return executeQuery(sqlQuery, connection, []);  
 }
 
 const updateComCodigo = (connection, table, comCodigo) => {
@@ -177,8 +177,7 @@ const iniciarMigracion = ()=>{
         config.database = database;
 
         const connection = await createConnection(config);
-
-        console.log(connection);
+        
 
         tablasComCodigo.forEach( async ( tabla ) => {
 
