@@ -4,7 +4,7 @@ import util from 'util';
 export const configAmeliaMasterExport = () => {
     return  {
         user: "support",
-        password: "Soporte@2022",
+        password: "Soporte2022",
         database: "ameliapro_master",
         host: "localhost",//"186.4.146.197",
         port: "3306"//"4198",   
