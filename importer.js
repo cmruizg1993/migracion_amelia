@@ -191,7 +191,7 @@ const iniciarMigracion = ()=>{
         //console.log(tables)
         tables.forEach(async (row) => {
             const table = row[`Tables_in_${database}`];
-            const columns = await getAllColumns(connection, table);
+            const columns = await getComCodigoColumn(connection, table);
 
             console.log(columns);
             /*
