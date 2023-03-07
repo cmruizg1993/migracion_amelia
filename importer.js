@@ -4,6 +4,13 @@ import fs from 'fs';
 import path from 'path';
 import { spawn, exec } from 'node:child_process';
 
+
+const tablasComCodigo = [
+    {
+        tabla: "config_sistema",
+        pk: "codigo_config"
+    }
+]
 const connection = importDb;
 const getEmpresa = (ruc) => {
     const sqlQuery = `SELECT * FROM empresas WHERE EMP_RUC = ? LIMIT 1`;
@@ -85,9 +92,15 @@ const exportData = (database) => {
 }
 
 
-const alterConfigTable = (connection) => {
+const addPrimaryKey = async (tabla, pk, connection) => {
 
-    const sqlQuery = `ALTER TABLE config_sistema ADD COM_CODIGO INTEGER NOT NULL, ADD PRIMARY KEY (COM_CODIGO, codigo_config)`;
+    const sqlQueryDrop = `ALTER TABLE ${tabla} DROP PRIMARY KEY;`;
+
+    const dropResult = await executeQuery(sqlQueryDrop, [], connection);
+
+    console.log(dropResult);
+
+    const sqlQuery = `ALTER TABLE ${tabla} ADD COM_CODIGO INTEGER NOT NULL, ADD PRIMARY KEY (COM_CODIGO, ${pk})`;
 
     return executeQuery(sqlQuery, [], connection);
 }
@@ -149,22 +162,29 @@ const iniciarMigracion = ()=>{
         const { error, stdout, stderr } = await importSql(database, dumpFile);
         
         console.log({ error, stdout, stderr })
-        /*
-        if(code != 0 )
+        
+        if(error != null )
         {
             console.log('Error al importar archivo SQL');
             return;
         } 
-        */
-        /*
+        
+        // se va  agregar el com_codigo a las tablas que lo necesiten
+
         const config = configAmeliaMasterImport();
 
         config.database = database;
 
         const connection = createConnection(config);
 
-        await alterConfigTable(connection);
+        tablasComCodigo.forEach( async ( tabla ) => {
 
+            await addPrimaryKey(tabla.tabla, tabla.pk, connection);
+        
+        })
+
+        
+        /*
         const tables = getAllTables(connection);
 
         tables.forEach(async (table) => {
