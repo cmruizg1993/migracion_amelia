@@ -177,27 +177,30 @@ const iniciarMigracion = ()=>{
         config.database = database;
 
         const connection = await createConnection(config);
-        
+        /*
 
         tablasComCodigo.forEach( async ( tabla ) => {
 
             await addPrimaryKey(tabla.tabla, tabla.pk, connection);
         
         })
-
+        */
         
-        /*
+        
         const tables = await getAllTables(connection);
 
         tables.forEach(async (table) => {
             
             const columns = await getAllColumns(connection, table);
 
+            console.log(columns);
+            /*
             const hasComCodigo = columns.filter( column => column == 'COM_CODIGO').length > 0;
 
             if(!hasComCodigo) return;
 
             updateComCodigo(connection, table, comCodigo).then();
+            */
 
         })
         /*
