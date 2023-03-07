@@ -34,7 +34,7 @@ const importSql = (database, dumpFile) => {
 
     const mysql = spawn('mysql',
     [
-        `-u${rootUser}` ,`-p${rootPassword}`, `${database} < ${dumpFile}`
+        `-u${rootUser}` ,`-p${rootPassword}`, `${database}`, `< ${dumpFile}`
     ]);
 
     return new Promise((res)=>{
