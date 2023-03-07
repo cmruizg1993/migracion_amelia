@@ -32,32 +32,21 @@ const importSql = (database, dumpFile) => {
     const rootUser = config.user;
     const rootPassword = config.password;
 
-    exec(`mysql -u ${rootUser} -p${rootPassword} ${database}  < ${dumpFile}`, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            
-        }
-        console.log(`stdout: ${stdout}`);
-        res({error, stdout, stderr});
-    })
+    
 
     return new Promise((res)=>{
-        mysql.stdout.on('data', (data) => {
-            console.log(`stdout: ${data}`);
-        });
-    
-        mysql.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
-        });
-    
-        mysql.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
-            res(code);
-        });
+        exec(`mysql -u ${rootUser} -p${rootPassword} ${database}  < ${dumpFile}`, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                
+            }
+            console.log(`stdout: ${stdout}`);
+            res({error, stdout, stderr});
+        })
     })  
       
 }
