@@ -10,6 +10,20 @@ const tablasComCodigo = [
         tabla: "config_sistema",
         pk: "codigo_config"
     }
+];
+
+const columnasEliminar = [
+    /*
+    {
+        tabla: "config_sistema",
+        columna: "xxx"
+    }
+    */
+]
+
+const tablasExportar = [
+    "ven_encfac",
+    
 ]
 
 const getEmpresa = (ruc) => {
@@ -105,6 +119,12 @@ const addPrimaryKey = async (tabla, pk, connection) => {
     return executeQuery(sqlQuery, connection, [] );
 }
 
+const dropColumn = async(tabla, columna, connection) => {
+    const sqlQueryDrop = `ALTER TABLE ${tabla} DROP COLUMN ${columna};`;
+
+    return executeQuery(sqlQuery, connection, [] );
+}
+
 const getAllTables = (connection) => {    
 
     const sqlQuery = `SHOW TABLES;`
@@ -177,6 +197,7 @@ const iniciarMigracion = ()=>{
         config.database = database;
 
         const connection = await createConnection(config);
+        console.log(`ACTUAIZANDO BASE DE DATOS ${database}`);
         /*
 
         tablasComCodigo.forEach( async ( tabla ) => {
@@ -202,6 +223,12 @@ const iniciarMigracion = ()=>{
             console.log(`TABLA ${table} ACTUALIZADA`);
 
         })
+        //se eliminan las columnas que sobrecargan la bdd
+        columnasEliminar.forEach( async (row) => {
+            await dropColumn(row.tabla, row.columna, connection);
+        })
+
+
         /*
         // Se exporta solo los datos de cada base de datos
         
@@ -218,6 +245,7 @@ const iniciarMigracion = ()=>{
         importSql(bddAmeliaUnificada, importDumpFile);
 
         */
+        console.log(`FIN DE ACTUALIZACION BDD ${database}`);
         
     })
 }
