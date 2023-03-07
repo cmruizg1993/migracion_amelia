@@ -199,3 +199,4 @@ const iniciarMigracion = ()=>{
         
     })
 }
+iniciarMigracion();

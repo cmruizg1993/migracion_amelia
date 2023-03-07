@@ -73,22 +73,24 @@ const dumpDatabase = (database) => {
     });
   })  
 }
-
-rucs.forEach(async (ruc) => {
-  const empresa = await getEmpresa(ruc);
+const iniciarExportacion = () => {
+  rucs.forEach(async (ruc) => {
+    const empresa = await getEmpresa(ruc);
+    
+    if(!empresa) return;
   
-  if(!empresa) return;
-
-  const existDatabase = await getEmpresaDatabase(empresa.EMP_DBNAME);
+    const existDatabase = await getEmpresaDatabase(empresa.EMP_DBNAME);
+    
+    console.log(existDatabase);
+    
+    if(existDatabase){
+      console.log(`Exportando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
   
-  console.log(existDatabase);
+      dumpDatabase(empresa.EMP_DBNAME).then();
+    }
   
-  if(existDatabase){
-    console.log(`Exportando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
+  })
+}
 
-    dumpDatabase(empresa.EMP_DBNAME).then();
-  }
-
-})
 
 /************************** SEGUNDA PARTE IMPORTACION DE CADA BASE DE DATOS ************************************** */
