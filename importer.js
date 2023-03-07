@@ -175,7 +175,7 @@ const iniciarMigracion = ()=>{
 
         config.database = database;
 
-        const connection = createConnection(config);
+        const connection = await createConnection(config);
 
         tablasComCodigo.forEach( async ( tabla ) => {
 
