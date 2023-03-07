@@ -15,13 +15,13 @@ import path from 'node:path';
 
 import { exportDb } from './db.js';
 
-const connection = exportDb.then();
+const master = exportDb;
 /************************** LEER TABLA DE EMPRESAS BDD MASTER ************************************** */
 
 const getEmpresa = (ruc) => {
   const sqlQuery = `SELECT * FROM empresas WHERE EMP_RUC = ? LIMIT 1`;
    
-  return connection
+  return master
   .execute(
       sqlQuery,
       [ruc]
@@ -33,7 +33,7 @@ const getEmpresa = (ruc) => {
 export const getEmpresaDatabase = (database) => {
   const sqlQuery = `show databases like  '${database}'`;
    
-  return connection
+  return master
   .execute(
       sqlQuery,
       []

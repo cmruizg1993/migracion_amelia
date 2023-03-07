@@ -11,11 +11,11 @@ const tablasComCodigo = [
         pk: "codigo_config"
     }
 ]
-const connection = importDb.then();
+
 const getEmpresa = (ruc) => {
     const sqlQuery = `SELECT * FROM empresas WHERE EMP_RUC = ? LIMIT 1`;
      
-    return connection
+    return importDb
     .execute(
         sqlQuery,
         [ruc]

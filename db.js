@@ -39,15 +39,12 @@ export const executeQuery = (sqlQuery, connection, params) => {
 /**
  * 
  * @param {mysql.ConnectionOptions} config 
- * @returns { Promise<mysql.Connection> }
+ * @returns { mysql.Connection }
  */
 export const createConnection = (config) => {
-    return new Promise((res, rej)=>{
-        const connection = mysql.createConnection(config);
-        connection.execute = util.promisify(connection.execute);
-        res(connection);
-    })
-    
+    const connection = mysql.createConnection(config);
+    connection.execute = util.promisify(connection.execute);
+    return connection;
 }
 
 export const exportDb = createConnection(configAmeliaMasterExport());
