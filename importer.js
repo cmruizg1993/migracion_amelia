@@ -1,7 +1,21 @@
-import {rucs, getEmpresa} from './exporter';
+import {rucs} from './exporter';
 import { importDb, createConnection, configAmeliaMasterImport, executeQuery } from './db';
 import fs from 'fs';
 import path from 'path';
+
+const connection = importDb;
+const getEmpresa = (ruc) => {
+    const sqlQuery = `SELECT * FROM empresas WHERE EMP_RUC = ? LIMIT 1`;
+     
+    return connection
+    .execute(
+        sqlQuery,
+        [ruc]
+      ).then(data =>{
+        if(data.length > 0) return data[0];
+        return null;
+      });
+  }
 
 const createDatabase = async (database) => {
 
@@ -12,10 +26,10 @@ const createDatabase = async (database) => {
 }
 const importSql = (database, dumpFile) => {
     
-    
+    const config = configAmeliaMasterImport();
     const databaseToImport = database;    
-    const rootUser = 'support';
-    const rootPassword = 'Soporte@2022';
+    const rootUser = config.user;
+    const rootPassword = config.password;
 
     const mysql = spawn('mysql', 
     [
@@ -108,9 +122,9 @@ const updateComCodigo = (connection, table, comCodigo) => {
 const iniciarMigracion = ()=>{
     //Creación Amelia unificada
 
-    const bddAmeliaUnificada = "amelia_unificada";
+    const bddAmeliaUnificada = "ameliapro_1";
 
-    createDatabase(bddAmeliaUnificada);
+    //createDatabase(bddAmeliaUnificada);
 
     //Eliminar columnas que sobrecargan el sistema
 
@@ -145,7 +159,7 @@ const iniciarMigracion = ()=>{
             console.log('Error al importar archivo SQL');
             return;
         } 
-
+        /*
         const config = configAmeliaMasterImport();
 
         config.database = database;
@@ -180,6 +194,8 @@ const iniciarMigracion = ()=>{
         const importDumpFile = path.resolve('import', `${database}.sql`);
 
         importSql(bddAmeliaUnificada, importDumpFile);
+
+        */
         
     })
 }
