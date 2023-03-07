@@ -15,7 +15,7 @@ import path from 'node:path';
 
 import { exportDb } from './db.js';
 
-const connection = exportDb;
+const connection = exportDb.then();
 /************************** LEER TABLA DE EMPRESAS BDD MASTER ************************************** */
 
 const getEmpresa = (ruc) => {
