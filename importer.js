@@ -2,6 +2,7 @@ import {rucs} from './exporter.js';
 import { importDb, createConnection, configAmeliaMasterImport, executeQuery } from './db.js';
 import fs from 'fs';
 import path from 'path';
+import { spawn } from 'node:child_process';
 
 const connection = importDb;
 const getEmpresa = (ruc) => {
