@@ -158,7 +158,7 @@ const iniciarMigracion = ()=>{
 
         console.log(`Se ha creado la base de datos: ${database}`)
         
-            
+        /*
         const { error, stdout, stderr } = await importSql(database, dumpFile);
         
         console.log({ error, stdout, stderr })
@@ -168,6 +168,7 @@ const iniciarMigracion = ()=>{
             console.log('Error al importar archivo SQL');
             return;
         } 
+        */
         
         // se va  agregar el com_codigo a las tablas que lo necesiten
 
@@ -177,6 +178,8 @@ const iniciarMigracion = ()=>{
 
         const connection = await createConnection(config);
 
+        console.log(connection);
+
         tablasComCodigo.forEach( async ( tabla ) => {
 
             await addPrimaryKey(tabla.tabla, tabla.pk, connection);
@@ -185,7 +188,7 @@ const iniciarMigracion = ()=>{
 
         
         /*
-        const tables = getAllTables(connection);
+        const tables = await getAllTables(connection);
 
         tables.forEach(async (table) => {
             
@@ -198,6 +201,7 @@ const iniciarMigracion = ()=>{
             updateComCodigo(connection, table, comCodigo).then();
 
         })
+        /*
         // Se exporta solo los datos de cada base de datos
         
         const codeExportData = await exportData(database);
