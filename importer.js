@@ -32,13 +32,9 @@ const importSql = (database, dumpFile) => {
     const rootUser = config.user;
     const rootPassword = config.password;
 
-    const mysql = spawn('mysql', 
+    const mysql = spawn('mysql',
     [
-        '-u', rootUser, 
-        `-p${rootPassword}`,
-        databaseToImport,
-        '<',
-        dumpFile
+        `-u ${rootUser} -p${rootPassword} ${database} < ${dumpFile}`
     ]);
 
     return new Promise((res)=>{
