@@ -188,12 +188,12 @@ const iniciarMigracion = ()=>{
         
         
         const tables = await getAllTables(connection);
-        console.log(tables)
-        tables.forEach(async (table) => {
-            
-            //const columns = await getAllColumns(connection, table);
+        //console.log(tables)
+        tables.forEach(async (row) => {
+            const table = row[`Tables_in_${database}`];
+            const columns = await getAllColumns(connection, table);
 
-            //console.log(columns);
+            console.log(columns);
             /*
             const hasComCodigo = columns.filter( column => column == 'COM_CODIGO').length > 0;
 
