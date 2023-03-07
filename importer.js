@@ -197,8 +197,9 @@ const iniciarMigracion = ()=>{
             const hasComCodigo = columns.length > 0;
 
             if(!hasComCodigo) return;
-
-            updateComCodigo(connection, table, comCodigo).then();
+            console.log(`ACTUAIZANDO COM_CODIGO EN LA TABLA ${table}`);
+            await updateComCodigo(connection, table, comCodigo).then();
+            console.log(`TABLA ${table} ACTUALIZADA`);
 
         })
         /*
