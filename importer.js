@@ -1,5 +1,5 @@
 import {rucs} from './exporter.js';
-import { importDb, createConnection, configAmeliaMasterImport, executeQuery } from './db';
+import { importDb, createConnection, configAmeliaMasterImport, executeQuery } from './db.js';
 import fs from 'fs';
 import path from 'path';
 
