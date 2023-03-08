@@ -341,6 +341,8 @@ const iniciarMigracion = async ()=>{
     const bddAmeliaUnificada = "ameliapro_test";
 
     for(let i = 0; i < rucs.length; i++){
+
+        const ruc = rucs[i];
         const empresa = await getEmpresa(ruc);
         if(!empresa) return;
 
