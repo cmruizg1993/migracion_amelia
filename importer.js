@@ -202,12 +202,13 @@ const exportData = (database) => {
     const rootUser = config.user;
     const rootPassword = config.password;
     const tablas = tablasExportar.join(',');
+    console.log(tablas);
   const mysqldump = spawn('mysqldump', 
   [
       databaseToExport, 
       `--no-create-info`,
-      `--tables ${tablas}`
-      `--result-file=${resultFileName}`, 
+      `--tables ${ tablas }`
+      `--result-file= ${ resultFileName }`, 
       '-u', rootUser, 
       `-p${rootPassword}`
   ]);
@@ -330,7 +331,7 @@ const iniciarMigracion = ()=>{
         })
         */
         
-        
+        /*
         const tables = await getAllTables(connection);
         //console.log(tables)
         tables.forEach(async (row) => {
