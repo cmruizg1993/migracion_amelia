@@ -149,7 +149,7 @@ const updateComCodigo = (connection, table, comCodigo) => {
 const iniciarMigracion = ()=>{
     //Creación Amelia unificada
 
-    const bddAmeliaUnificada = "ameliapro_1";
+    const bddAmeliaUnificada = "ameliapro_test";
 
     //createDatabase(bddAmeliaUnificada);
 
@@ -223,11 +223,13 @@ const iniciarMigracion = ()=>{
             console.log(`TABLA ${table} ACTUALIZADA`);
 
         })
+        console.log('ELIMINANDO COLUMNAS ...');
         //se eliminan las columnas que sobrecargan la bdd
         columnasEliminar.forEach( async (row) => {
+            console.log({ tabla: row.tabla , columna: row.columna});
             await dropColumn(row.tabla, row.columna, connection);
         })
-
+        console.log('SE HAN ELIMINADO LAS COLUMNAS CORRECTAMENTE !');
 
         /*
         // Se exporta solo los datos de cada base de datos
