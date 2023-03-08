@@ -319,7 +319,7 @@ const actualizarComCodigo = async (connection, database, comCodigo) => {
 
         if(!hasComCodigo) return;
         console.log(`ACTUAIZANDO COM_CODIGO EN LA TABLA ${table}`);
-        await updateComCodigo(connection, table, comCodigo).then();
+        await updateComCodigo(connection, table, comCodigo);
         console.log(`TABLA ${table} ACTUALIZADA`);
     }
     
