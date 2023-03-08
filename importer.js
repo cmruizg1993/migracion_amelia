@@ -13,16 +13,141 @@ const tablasComCodigo = [
 ];
 
 const columnasEliminar = [
-    /*
+    
     {
-        tabla: "config_sistema",
-        columna: "xxx"
+        tabla: "com_encfac",
+        columna: "ENCFAC_XML"
+    },
+    {
+        tabla: "com_enclic",
+        columna: "ENCLIC_XML"
+    },
+    {
+        tabla: "com_encret",
+        columna: "ENCRET_XML"
+    },
+    {
+        tabla: "ven_encfac",
+        columna: "ENCFAC_XML"
+    },
+    {
+        tabla: "ven_encguia",
+        columna: "ENCGUIA_XML"
+    },
+    {
+        tabla: "ven_encncr",
+        columna: "ENCNCR_XML"
+    },
+    {
+        tabla: "ven_encndb",
+        columna: "ENCNDB_XML"
+    },
+    {
+        tabla: "ven_encpro",
+        columna: "ENCPRO_XML"
     }
-    */
+    
 ]
 
 const tablasExportar = [
+    "age_actividad",
+    "age_actividad_documentos",
+    "age_agenda_actividad",
+    "age_comentarios",
+    "age_frecuencia_mensual",
+    "ban_maeban",
+    "bot_orel_api",
+    "com_codretproveedor",
+    "com_detfac",
+    "com_detlic",
+    "com_detproveedor",
+    "com_detret",
+    "com_encfac",
+    "com_encfac_datos_adicionales",
+    "com_enclic",
+    "com_enclic_datos_adicionales",
+    "com_encret",
+    "com_maeproveedor",
+    "com_proveedores",
+    "com_proveedores_ats",
+    "compras",
+    "config_sistema",
+    "cxc_trncobro",
+    "cxc_trnfacturas",
+    "cxc_trnpago",
+    "cxc_trnretenciones",
+    "fac_cab",
+    "fac_cab_infadi",
+    "fac_cab_tci",
+    "fac_det",
+    "fac_det_detadi",
+    "fac_det_imp",
+    "inv_maearticulo",
+    "inv_maeartprecio",
+    "inv_maebodega",
+    "inv_maegrupo",
+    "inv_maeunidad",
+    "mae_bancos",
+    "mae_cuentasbancarias",
+    "mae_establecimientos",
+    "mae_puntoemision",
+    "mae_puntoemision_detfij",
+    "ncr_cab",
+    "ncr_cab_infadi",
+    "ncr_cab_tci",
+    "ncr_det",
+    "ncr_det_detadi",
+    "ncr_det_imp",
+    "ndb_cab",
+    "ndb_cab_infadi",
+    "ndb_cab_tci",
+    "ndb_det",
+    "ndb_det_detadi",
+    "ndb_det_imp",
+    "orel_noguardadorecibidos",
+    "orel_trntxt",
+    "orel_trnxml",
+    "orel_txtemitidos",
+    "orel_txtrecibidos",
+    "ret_cab",
+    "ret_cab_infadi",
+    "ret_det_imp",
+    "retenciones",
+    "seg_maecompania",
+    "seg_maeperfil",
+    "seg_maeusuario",
+    "tb_detegreso",
+    "tb_detingreso",
+    "tb_encegreso",
+    "tb_encingreso",
+    "ven_datosadicionalcliente",
+    "ven_detfac",
+    "ven_detguia",
+    "ven_detncr",
+    "ven_detndb",
+    "ven_detpro",
+    "ven_detproesp",
     "ven_encfac",
+    "ven_encfac_datos_adicionales",
+    "ven_encfac_formas_pago",
+    "ven_encguia",
+    "ven_encguia_datos_adicionales",
+    "ven_encncr",
+    "ven_encncr_datos_adicionales",
+    "ven_encndb",
+    "ven_encndb_datos_adicionales",
+    "ven_encpro",
+    "ven_encpro_datos_adicionales",
+    "ven_encproesp",
+    "ven_encproespeproveedor",
+    "ven_maecliente",
+    "ven_maedocumentoscliente",
+    "ven_maegrupo",
+    "ven_maetipocliente",
+    "ven_maevendedor",
+    "ventas"
+
+
     
 ]
 
