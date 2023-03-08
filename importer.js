@@ -263,9 +263,9 @@ const getComCodigoColumn = (connection, table) => {
 
 const updateComCodigo = (connection, table, comCodigo) => {
     
-    const sqlQuery = `UPDATE ${table} SET COM_CODIGO = ? ;`
-
-    return executeQuery(sqlQuery, connection, [comCodigo]);    
+    const sqlQuery = `UPDATE ${table} SET COM_CODIGO = ${comCodigo} ;`
+    console.log(`Ejecutando SQL: ${sqlQuery}`)
+    return executeQuery(sqlQuery, connection, []);    
 }
 
 const recrearBdd = async (database) => {
@@ -308,7 +308,7 @@ const agregarLlavePrimaria = async (connection)=>{
 const actualizarComCodigo = async (connection, database, comCodigo) => {
 
     const tables = await getAllTables(connection);
-
+    console.log(tables);
     for( let i = 0; i < tables.length; i++){
         const row = tables[i];
         const table = row[`Tables_in_${database}`];
@@ -346,12 +346,12 @@ const iniciarMigracion = async ()=>{
         const empresa = await getEmpresa(ruc);
         if(!empresa) return;
 
-        console.log(`Importando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
-        
         const database = empresa.EMP_DBNAME;
 
         const comCodigo = empresa.EMP_CODIGO;
 
+        console.log(`Importando BDD ${database} RUC ${empresa.EMP_RUC} EMP_CODIGO: ${comCodigo}`);
+        
         await recrearBdd(database);
 
         // se crea la conexion directa la base de datos recreada
