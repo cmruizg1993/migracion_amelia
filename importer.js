@@ -298,7 +298,7 @@ const recrearBdd = async (database) => {
 const agregarLlavePrimaria = async (connection)=>{
     console.log('AGREGANDO COM_CODIGO COMO PK...');
     for(let i = 0; i < tablasComCodigo.length; i++){
-        const row = tabla[0];
+        const row = tablasComCodigo[0];
         await addPrimaryKey(row.tabla, row.pk, connection);
     }
     console.log(' SE HA AGREGANDO COM_CODIGO COMO PK...');
