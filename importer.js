@@ -207,7 +207,7 @@ const exportData = (database) => {
   [
       databaseToExport, 
       `--no-create-info`,
-      "--tables "+tablas
+      "--tables "+tablas,
       `--result-file= ${ resultFileName }`, 
       '-u', rootUser, 
       `-p${rootPassword}`
