@@ -356,20 +356,21 @@ const iniciarMigracion = ()=>{
         */
         
         // Se exporta solo los datos de cada base de datos
-        
-        const codeExportData = await exportData(database);
+        /*
+        const { error } = await exportData(database);
 
-        if(codeExportData != null) {
+        if(error) {
             console.log('Hubo en error al exportar los datos de '+database)
             return;
         }
-        /*
+        */
+        
         // Se importa datos en Amelia unificada
         const importDumpFile = path.resolve('import', `${database}.sql`);
 
         importSql(bddAmeliaUnificada, importDumpFile);
 
-        */
+        
         console.log(`FIN DE ACTUALIZACION BDD ${database}`);
         
     })
