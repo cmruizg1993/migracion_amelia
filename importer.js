@@ -335,10 +335,26 @@ const eliminarColumnasXml = async (connection) => {
     console.log('SE HAN ELIMINADO LAS COLUMNAS CORRECTAMENTE !');
 }
 
+const vaciarDatosAmeliaUnificada = async (connection) => {
+    
+    for(let i = 0; i < tablasExportar.length ; i++){
+        const tabla = tablasExportar[i];
+        const sql = `DELETE FROM ${tabla};`;
+        await executeQuery(sql, connection);
+    }
+}
+
 const iniciarMigracion = async ()=>{
     //Creación Amelia unificada
 
     const bddAmeliaUnificada = "ameliapro_test";
+
+    const config = configAmeliaMasterImport();
+    config.database = bddAmeliaUnificada;
+    const connectionUnificada = await createConnection(config);
+    console.log("Vaciando datos ...");
+    await vaciarDatosAmeliaUnificada(connectionUnificada);
+    console.log("Se ha vaciado la bdd");
 
     for(let i = 0; i < rucs.length; i++){
 
@@ -355,8 +371,6 @@ const iniciarMigracion = async ()=>{
         await recrearBdd(database);
 
         // se crea la conexion directa la base de datos recreada
-
-        const config = configAmeliaMasterImport();
 
         config.database = database;
 
