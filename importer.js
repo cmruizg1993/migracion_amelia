@@ -197,15 +197,16 @@ const importSql = (database, dumpFile) => {
 const exportData = (database) => {
     
   const resultFileName = path.resolve('./import', `${database}.sql`);
-  const databaseToExport = database;
-
-  const rootUser = 'support';
-  const rootPassword = 'Soporte@2022';
+  const config = configAmeliaMasterImport();
+    const databaseToExport = database;    
+    const rootUser = config.user;
+    const rootPassword = config.password;
 
   const mysqldump = spawn('mysqldump', 
   [
       databaseToExport, 
       `--no-create-info`,
+      `--tables ${tablasExportar.join(',')}`
       `--result-file=${resultFileName}`, 
       '-u', rootUser, 
       `-p${rootPassword}`
@@ -353,16 +354,16 @@ const iniciarMigracion = ()=>{
         })
         console.log('SE HAN ELIMINADO LAS COLUMNAS CORRECTAMENTE !');
 
-        /*
+        
         // Se exporta solo los datos de cada base de datos
         
         const codeExportData = await exportData(database);
 
-        if(codeExportData != 0) {
+        if(codeExportData != null) {
             console.log('Hubo en error al exportar los datos de '+database)
             return;
         }
-
+        /*
         // Se importa datos en Amelia unificada
         const importDumpFile = path.resolve('import', `${database}.sql`);
 
