@@ -202,30 +202,29 @@ const exportData = (database) => {
     const rootUser = config.user;
     const rootPassword = config.password;
     const tablas = tablasExportar.join(' ');
-  const mysqldump = spawn('mysqldump', 
-  [
-      databaseToExport, 
-      `--no-create-info`,
-      `--tables=${tablas}`,
-      `--result-file=${ resultFileName }`, 
-      '-u', rootUser, 
-      `-p${rootPassword}`
-  ]);
-  return new Promise((res)=>{
-    mysqldump.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`);
-    });
-  
-    mysqldump.stderr.on('data', (data) => {
-      console.error(`stderr: ${data}`);
-    });
-  
-    mysqldump.on('close', (code) => {
-      console.log(`child process exited with code ${code}`);
-      res(code);
-    });
-  })  
-      
+    return new Promise((res)=>{
+        exec('mysqldump '+
+            databaseToExport+
+            ` --no-create-info`+
+            ` --tables ${tablas}`+
+            ` --result-file=${ resultFileName }`+ 
+            ' -u', rootUser+
+            ` -p${rootPassword}`, 
+            
+            (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    
+                }
+                console.log(`stdout: ${stdout}`);
+                res({error, stdout, stderr});
+            }
+        )
+  });
 }
 
 
