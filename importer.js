@@ -268,18 +268,80 @@ const updateComCodigo = (connection, table, comCodigo) => {
     return executeQuery(sqlQuery, connection, [comCodigo]);    
 }
 
-const iniciarMigracion = ()=>{
+const recrearBdd = async (database) => {
+    
+       
+    const dumpFile = path.resolve('export', `${database}.sql`);
+
+    if(!fs.existsSync(dumpFile)) {
+        console.log(`Error: No se encontro el archivo: ${dumpFile}`)
+        return;
+    }
+    console.log(`Creando base de datos: ${database}`)
+
+    const result  = await createDatabase(database);
+
+    console.log(`Se ha creado la base de datos: ${database}`)
+    
+    
+    const { error1, stdout, stderr } = await importSql(database, dumpFile);
+    
+    if(error1 != null )
+    {
+        console.log('Error al importar archivo SQL');
+        return;
+    }
+
+    console.log(`Se ha importado los datos de la base de datos: ${database}`)
+
+}
+const agregarLlavePrimaria = async (connection)=>{
+    console.log('AGREGANDO COM_CODIGO COMO PK...');
+    for(let i = 0; i < tablasComCodigo.length; i++){
+        const row = tabla[0];
+        await addPrimaryKey(row.tabla, row.pk, connection);
+    }
+    console.log(' SE HA AGREGANDO COM_CODIGO COMO PK...');
+    
+}
+
+const actualizarComCodigo = async (connection, database, comCodigo) => {
+
+    const tables = await getAllTables(connection);
+
+    for( let i = 0; i < tables.length; i++){
+        const row = tables[i];
+        const table = row[`Tables_in_${database}`];
+        const columns = await getComCodigoColumn(connection, table);
+
+        
+        const hasComCodigo = columns.length > 0;
+
+        if(!hasComCodigo) return;
+        console.log(`ACTUAIZANDO COM_CODIGO EN LA TABLA ${table}`);
+        await updateComCodigo(connection, table, comCodigo).then();
+        console.log(`TABLA ${table} ACTUALIZADA`);
+    }
+    
+}
+
+const eliminarColumnasXml = async (connection) => {
+    console.log('ELIMINANDO COLUMNAS ...');
+    for ( let i = 0; i < columnasEliminar.length; i++){
+        const row = columnasEliminar[i];
+        console.log({ tabla: row.tabla , columna: row.columna});
+        await dropColumn(row.tabla, row.columna, connection);
+    }
+    console.log('SE HAN ELIMINADO LAS COLUMNAS CORRECTAMENTE !');
+}
+
+const iniciarMigracion = async ()=>{
     //Creación Amelia unificada
 
     const bddAmeliaUnificada = "ameliapro_test";
 
-    //createDatabase(bddAmeliaUnificada);
-
-    //Eliminar columnas que sobrecargan el sistema
-
-    rucs.forEach(async (ruc) => {
+    for(let i = 0; i < rucs.length; i++){
         const empresa = await getEmpresa(ruc);
-
         if(!empresa) return;
 
         console.log(`Importando BDD ${empresa.EMP_DBNAME} RUC ${empresa.EMP_RUC}`);
@@ -288,31 +350,9 @@ const iniciarMigracion = ()=>{
 
         const comCodigo = empresa.EMP_CODIGO;
 
-        const dumpFile = path.resolve('export', `${database}.sql`);
+        await recrearBdd(database);
 
-        if(!fs.existsSync(dumpFile)) {
-            console.log(`Error: No se encontro el archivo: ${dumpFile}`)
-            return;
-        }
-        console.log(`Creando base de datos: ${database}`)
-
-        const result  = await createDatabase(database);
-
-        console.log(`Se ha creado la base de datos: ${database}`)
-        
-        /*
-        const { error, stdout, stderr } = await importSql(database, dumpFile);
-        
-        console.log({ error, stdout, stderr })
-        
-        if(error != null )
-        {
-            console.log('Error al importar archivo SQL');
-            return;
-        } 
-        */
-        
-        // se va  agregar el com_codigo a las tablas que lo necesiten
+        // se crea la conexion directa la base de datos recreada
 
         const config = configAmeliaMasterImport();
 
@@ -320,59 +360,40 @@ const iniciarMigracion = ()=>{
 
         const connection = await createConnection(config);
         console.log(`ACTUAIZANDO BASE DE DATOS ${database}`);
-        /*
 
-        tablasComCodigo.forEach( async ( tabla ) => {
-
-            await addPrimaryKey(tabla.tabla, tabla.pk, connection);
         
-        })
-        */
+        //se agrega la columna com_codigo como parte de la llave primaria de las tablas
         
-        /*
-        const tables = await getAllTables(connection);
-        //console.log(tables)
-        tables.forEach(async (row) => {
-            const table = row[`Tables_in_${database}`];
-            const columns = await getComCodigoColumn(connection, table);
+        await agregarLlavePrimaria(connection);
 
-            
-            const hasComCodigo = columns.length > 0;
+        //se hace el update de la columna com_codigo en base al emp_codigo
 
-            if(!hasComCodigo) return;
-            console.log(`ACTUAIZANDO COM_CODIGO EN LA TABLA ${table}`);
-            await updateComCodigo(connection, table, comCodigo).then();
-            console.log(`TABLA ${table} ACTUALIZADA`);
+        await actualizarComCodigo(connection, database, comCodigo);
 
-        })
-        /*
-        console.log('ELIMINANDO COLUMNAS ...');
         //se eliminan las columnas que sobrecargan la bdd
-        columnasEliminar.forEach( async (row) => {
-            console.log({ tabla: row.tabla , columna: row.columna});
-            await dropColumn(row.tabla, row.columna, connection);
-        })
-        console.log('SE HAN ELIMINADO LAS COLUMNAS CORRECTAMENTE !');
-        */
-        
+        await eliminarColumnasXml(connection);
+
         // Se exporta solo los datos de cada base de datos
-        /*
+        console.log('exportando los datos de: '+database)
         const { error } = await exportData(database);
 
         if(error) {
             console.log('Hubo en error al exportar los datos de '+database)
             return;
         }
-        */
+        console.log('fin de la exportacion de datos de: '+database)
         
         // Se importa datos en Amelia unificada
+
+        console.log('importando los datos de '+database+ ' en amelia unificada')
         const importDumpFile = path.resolve('import', `${database}.sql`);
 
-        importSql(bddAmeliaUnificada, importDumpFile);
+        await importSql(bddAmeliaUnificada, importDumpFile);
 
         
         console.log(`FIN DE ACTUALIZACION BDD ${database}`);
-        
-    })
+
+    }
+    
 }
 iniciarMigracion();
