@@ -202,12 +202,11 @@ const exportData = (database) => {
     const rootUser = config.user;
     const rootPassword = config.password;
     const tablas = tablasExportar.join(' ');
-    console.log(tablas);
   const mysqldump = spawn('mysqldump', 
   [
       databaseToExport, 
       `--no-create-info`,
-      "--tables", tablas,
+      `--tables=${tablas}`,
       `--result-file=${ resultFileName }`, 
       '-u', rootUser, 
       `-p${rootPassword}`
