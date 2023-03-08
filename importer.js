@@ -145,10 +145,7 @@ const tablasExportar = [
     "ven_maegrupo",
     "ven_maetipocliente",
     "ven_maevendedor",
-    "ventas"
-
-
-    
+    "ventas"    
 ]
 
 const getEmpresa = (ruc) => {
