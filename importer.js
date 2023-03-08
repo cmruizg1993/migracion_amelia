@@ -244,7 +244,7 @@ const addPrimaryKey = async (tabla, pk, connection) => {
 const dropColumn = async(tabla, columna, connection) => {
     const sqlQueryDrop = `ALTER TABLE ${tabla} DROP COLUMN ${columna};`;
 
-    return executeQuery(sqlQuery, connection, [] );
+    return executeQuery(sqlQueryDrop, connection, [] );
 }
 
 const getAllTables = (connection) => {    
