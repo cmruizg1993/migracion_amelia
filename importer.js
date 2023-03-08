@@ -208,7 +208,7 @@ const exportData = (database) => {
             ` --no-create-info`+
             ` --tables ${tablas}`+
             ` --result-file=${ resultFileName }`+ 
-            ' -u', rootUser+
+            ' -u ' + rootUser+
             ` -p${rootPassword}`, 
             
             (error, stdout, stderr) => {
