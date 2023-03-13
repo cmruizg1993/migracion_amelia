@@ -347,7 +347,7 @@ const vaciarDatosAmeliaUnificada = async (connection) => {
 const iniciarMigracion = async ()=>{
     //Creación Amelia unificada
 
-    const bddAmeliaUnificada = "ameliapro_test";
+    const bddAmeliaUnificada = "ameliapro_1";
 
     const config = configAmeliaMasterImport();
     config.database = bddAmeliaUnificada;
