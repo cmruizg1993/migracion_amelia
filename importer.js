@@ -236,11 +236,11 @@ const addPrimaryKey = async (tabla, pk, connection) => {
 
     //const sqlQueryDrop = `ALTER TABLE ${tabla} DROP PRIMARY KEY;`;
 
-    //const dropResult = await executeQuery(sqlQueryDrop, connection, []);
+    const dropResult = await executeQuery(sqlQueryDrop, connection, []);
 
-    //console.log("addPrimaryKey: ", dropResult);
-
-    const sqlQuery = `ALTER TABLE ${tabla} DROP PRIMARY KEY, ADD PRIMARY KEY (${pk}, COM_CODIGO);`;
+    console.log("addPrimaryKey: ", dropResult);
+    const sqlQuery = `ALTER TABLE ${tabla} DROP PRIMARY KEY, ADD COM_CODIGO INTEGER NOT NULL, ADD PRIMARY KEY (${pk}, COM_CODIGO);`;
+    //const sqlQuery = `ALTER TABLE ${tabla} ADD COM_CODIGO INTEGER NOT NULL, ADD PRIMARY KEY (COM_CODIGO, ${pk})`;
 
     return executeQuery(sqlQuery, connection, [] );
 }
