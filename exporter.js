@@ -108,6 +108,6 @@ const iniciarExportacion = () => {
   
   })
 }
-
+iniciarExportacion();
 
 /************************** SEGUNDA PARTE IMPORTACION DE CADA BASE DE DATOS ************************************** */
