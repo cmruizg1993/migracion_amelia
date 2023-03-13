@@ -234,7 +234,7 @@ const addPrimaryKey = async (tabla, pk, connection) => {
 
     const dropResult = await executeQuery(sqlQueryDrop, connection, []);
 
-    console.log(dropResult);
+    console.log("addPrimaryKey: ", dropResult);
 
     const sqlQuery = `ALTER TABLE ${tabla} ADD COM_CODIGO INTEGER NOT NULL, ADD PRIMARY KEY (COM_CODIGO, ${pk})`;
 
