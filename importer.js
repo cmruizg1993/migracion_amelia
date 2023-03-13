@@ -351,11 +351,12 @@ const iniciarMigracion = async ()=>{
 
     const config = configAmeliaMasterImport();
     config.database = bddAmeliaUnificada;
+    /*
     const connectionUnificada = await createConnection(config);
     console.log("Vaciando datos ...");
     await vaciarDatosAmeliaUnificada(connectionUnificada);
     console.log("Se ha vaciado la bdd");
-
+    */
     for(let i = 0; i < rucs.length; i++){
 
         const ruc = rucs[i];
