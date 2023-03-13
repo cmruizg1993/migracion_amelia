@@ -9,6 +9,10 @@ const tablasComCodigo = [
     {
         tabla: "config_sistema",
         pk: "codigo_config"
+    },
+    {
+        tabla: "com_codretproveedor",
+        pk: "CODRET_CODIGO"
     }
 ];
 
