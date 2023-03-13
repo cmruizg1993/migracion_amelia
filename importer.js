@@ -361,8 +361,9 @@ const iniciarMigracion = async ()=>{
     await vaciarDatosAmeliaUnificada(connectionUnificada);
     console.log("Se ha vaciado la bdd");
     */
+   console.info("¡ Iniciando importación !")
     for(let i = 0; i < rucs.length; i++){
-
+        console.info(`Importando Base de datos ${i+1} de ${rucs.length}`)
         const ruc = rucs[i];
         const empresa = await getEmpresa(ruc);
         if(!empresa) return;
@@ -415,6 +416,8 @@ const iniciarMigracion = async ()=>{
         console.log(`FIN DE ACTUALIZACION BDD ${database}`);
 
     }
+
+    console.info("¡ Fin de la importación !")
     
 }
 iniciarMigracion();
